@@ -15,9 +15,14 @@ def deobfuscate(data):
     # Step 3: Inflate using zlib
     return zlib.decompress(decoded).decode()
 
+loops = 0
+
 # Main loop that runs about 50 times before producing the final payload
 while obfuscated_str.startswith("exec((_)(b'"):
-
+    #hard stop at 100 rounds in case the script runs forever xD
+    loops+=1
+    if loops >= 500:
+        return
     # the deobfuscation routine will produce a string that looks like
     # exec((_)(b'.....'
     # the target of the deobfuscation is the binary string within
